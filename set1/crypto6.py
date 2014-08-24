@@ -49,7 +49,11 @@
 #  e. For each block, the single-byte XOR key that produces the best
 #  looking histogram is the repeating-key XOR key byte for that
 #  block. Put them together and you have the key.
-#  
+#
+
+import sys
+sys.path.insert(1, "../common") # Want to locate modules in our 'common' directory
+
 
 import string
 import binascii
@@ -75,7 +79,7 @@ minkeylength = 2
 maxkeylength = 41
 
 
-with open("set1/gistfile3132752.txt") as f:
+with open("./gistfile3132752.txt") as f:
     for line in f:
         decoded += binascii.a2b_base64(line)
 
@@ -91,6 +95,7 @@ for keysize in range(minkeylength, maxkeylength):
         #read pair of bufs
         tbuf1 = decoded[(i-1)*keysize:i*keysize]
         tbuf2 = decoded[(i)*keysize:(i+1)*keysize]
+
         #score pair of bufs
 
         #add score to accumulator

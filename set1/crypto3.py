@@ -17,7 +17,8 @@
 # 
 # Tune your algorithm until this works.
 
-
+import sys
+sys.path.insert(1, "../common") # Want to locate modules in our 'common' directory
 import binascii
 import string
 import utils

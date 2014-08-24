@@ -11,6 +11,9 @@
 # has been encrypted by single-character XOR. Find it. (Your code from
 # #3 should help.)
 
+import sys
+sys.path.insert(1, "../common") # Want to locate modules in our 'common' directory
+
 
 import string
 import binascii
