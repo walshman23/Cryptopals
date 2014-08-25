@@ -106,4 +106,32 @@ for keysize in range(minkeylength, maxkeylength + 1):
     #Score for this keysize is (accumulator/bufpairs)/keysize
     print "Score for keylength", keysize, "is", (accumulator/bufpairs)/keysize
 
-# Keysize of 2 seems lowest. Hmmm. I smell a bug.
+# Keysize of 2 seems lowest.
+
+# Buffer 1:  Odd bytes; Buffer 2: Even bytes
+
+buf1 = decoded[0::2]
+buf2 = decoded[1::2]
+
+scores = []
+keys = []
+for key in range(256):
+			candidatebuf = utils.xor(key, buf1)
+			scores.append(ltrfreq.totcscore(candidatebuf))
+			keys.append(key)
+
+
+print "Highest score from buf1 is", max(scores), "Corresponding key is", keys[scores.index(max(scores))]
+scores = []
+keys = []
+for key in range(256):
+			candidatebuf = utils.xor(key, buf2)
+			scores.append(ltrfreq.totcscore(candidatebuf))
+			keys.append(key)
+
+
+print "Highest score from buf2 is", max(scores), "Corresponding key is", keys[scores.index(max(scores))]
+
+# 'nn'
+
+print utils.rkxor('nn', decoded)
