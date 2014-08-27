@@ -23,9 +23,20 @@ lineno=1
 chunksize=16
 
 
-# TODO: write real code to count unique chunks in buffer
 def uniquechunks(buf, size):
-    return 42
+    bufcount = {}
+    uniqs = 0
+    for bufno in range(0, len(buf)/chunksize):
+        tbuf = binascii.hexlify(buf[bufno*size:(bufno+1)*size])
+        if  tbuf not in bufcount:
+            bufcount[tbuf] = 1
+            uniqs += 1
+        else:
+            bufcount[tbuf] += 1
+
+
+    return uniqs
+
 
 
 with open("./8.txt") as f:
@@ -33,7 +44,9 @@ with open("./8.txt") as f:
 
 for line in content:
     b = binascii.unhexlify(line.strip())
-    print "Line", lineno, "has", uniquechunks(b, chunksize), "unique chunks of length", chunksize
+    print "Line", lineno, "has", uniquechunks(b, chunksize), "unique chunks"
     lineno += 1
+
+# Line 133 is ours
 
 
