@@ -27,16 +27,42 @@ from Crypto.Cipher import AES
 blocksize = 16
 key = b'YELLOW SUBMARINE'
 iv = blocksize*chr(0)
+ct = iv
+ciphertext = b''
 
-cipher_encrypt = AES.new(key, AES.MODE_CBC, iv)
-cipher_decrypt = AES.new(key, AES.MODE_CBC, iv)
+with open("./test_input.txt") as f:
+    plaintext_buf = f.read(blocksize)
+    while plaintext_buf != "":
+        if len(plaintext_buf) < blocksize:
+            padlen = blocksize - len(plaintext_buf)
+            plaintext_buf = plaintext_buf + chr(padlen)*padlen
+        if ct == iv:
+            ct = iv
 
+        cipher_encrypt = AES.new(key, AES.MODE_ECB)
+        out = cipher_encrypt.encrypt(utils.rkxor(plaintext_buf, ct))
+        ct = out
+        ciphertext += out
+        print plaintext_buf, "->", out
+        plaintext_buf = f.read(blocksize)
 
-plaintext="Attack at Dawn!\n"
+# ciphertext is now the fully CBC-encrypted input file.  Let's see.
 
-#with open("./10.txt") as f:
-#buf = f.read(blocksize)
-ciphertext = cipher_encrypt.encrypt(plaintext)
+ for bufno in range(0, len(ciphertext)/blocksize):
+    cipherbuf = ciphertext[bufno*blocksize:(bufno+1)*blocksize]
 
-print plaintext, "->", ciphertext, "->", cipher_decrypt.decrypt(ciphertext)
+    # incomplete below here
+     if len(plaintext_buf) < blocksize:
+            padlen = blocksize - len(plaintext_buf)
+            plaintext_buf = plaintext_buf + chr(padlen)*padlen
+        if ct == iv:
+            ct = iv
+
+        cipher_encrypt = AES.new(key, AES.MODE_ECB)
+        out = cipher_encrypt.encrypt(utils.rkxor(plaintext_buf, ct))
+        ct = out
+        ciphertext += out
+        print plaintext_buf, "->", out
+        plaintext_buf = f.read(blocksize)
+
 
