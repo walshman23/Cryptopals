@@ -13,7 +13,7 @@ def rkxor(key, buf):
 	ret = bytearray(len(buf))
 	for i in range(len(buf)):
  		ret[i] = ord(key[i%len(key)]) ^ ord(buf[i])
-	return ret
+	return str(ret)
 	
 def hamming(s1, s2):
 	assert len(s1) == len(s2)
